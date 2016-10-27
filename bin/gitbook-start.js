@@ -37,22 +37,15 @@ else
             
             for (var d in dependencias){
                 if(d.search(myArgs.deploy) != -1){
-                    // dependencia_buscada = d;  
-                    // var tarea_gulp = `\n\ngulp.task("deploy-${myArgs.deploy}", function(){`+
-                    //          `\n       require("${dependencia_buscada}").deploy("${myArgs.IP}", "${myArgs.path}", "${packagejson.repository.url}", "${myArgs.usuarioremoto}");`+
-                    //          `\n});`;     
-                    // fs.appendFile(path.join(basePath,'gulpfile.js'), `${tarea_gulp}`, (err) => {
-                    //   if (err) throw err;
-                    //     console.log("Escribiendo tarea en gulpfile para próximos despliegues");        
-                    // });
                     
-                    // require(d).deploy(myArgs.IP, myArgs.path, packagejson.repository.url, myArgs.usuarioremoto);
+                    console.log("IP:"+myArgs.IP);
+                    console.log("Path:"+myArgs.path);
+                    console.log("Usuarioremoto:"+myArgs.usuarioremoto);
+                    
                     require(d).initialize(myArgs.IP,myArgs.path,packagejson.repository.url,myArgs.usuarioremoto);
                     break;
                 }
             }
-        
-
         }
         else
         {
