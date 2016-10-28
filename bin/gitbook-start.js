@@ -42,12 +42,11 @@ else
                         break;
                         
                     }
+
                 }
             } catch(e){
                 console.log("No se ha encontrado el plugin. Error: "+ e);
             }
-        
-
         }
         else
         {
