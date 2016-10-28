@@ -2,16 +2,16 @@
 
 ## Nueva funcionalidad para el paquete NPM: plugins (IAAS)
 
-El objetivo de esta práctica es extender el package NodeJS desarrollado en la [pŕactica 2](https://github.com/ULL-ESIT-SYTW-1617/creacion-de-paquetes-y-modulos-en-nodejs-josue-nayra), publicado en npm con una nueva funcionalidad que permita que los usuarios con conocimientos de NodeJS puedan extender la conducta del ejecutable para que este realice el despliegue en plataformas distintas de las ya consideradas.
+El objetivo de esta práctica es extender el package NodeJS desarrollado en la [pŕactica 2](https://www.npmjs.com/package/gitbook-start-josue-nayra), publicado en npm con una nueva funcionalidad que permita que los usuarios con conocimientos de NodeJS puedan extender la conducta del ejecutable para que este realice el despliegue en plataformas distintas de las ya consideradas.
 
 En esta práctica sólo se pide desarrollar el plugin para iaas.ull.es
 
-
+[Plugin: gitbook-start-iaas-ull-es-josue-nayra](https://github.com/ULL-ESIT-SYTW-1617/gitbook-start-iaas-ull-es-josue-nayra)
 
 
 ### Pasos a seguir para la utilización del plugin
 
-1- Descargar el paquete inicial: *gitbook-start*
+1- Descargar el paquete inicial: **gitbook-start**
     
 ```bash
 $ npm install -g gitbook-start-josue-nayra 
@@ -23,21 +23,23 @@ $ npm install -g gitbook-start-josue-nayra
 $ gitbook-start -d <directorio> --autor <autor> --name <nombre_libro> --url <url_repo>
 ```
     
-    Opciones disponibles para la creación del libro:
-        
-        -d o --directorio <directorio en el que se desplegará el libro>
-        
-        --autor <autor del libro>
-        
-        --name  <nombre del libro>
-        
-        --url <url del repositorio en github>
+Opciones disponibles para la creación del libro:
     
-        --help 
-        
-        --version
+    -d o --directorio <directorio en el que se desplegará el libro>
+    
+    --autor <autor del libro>
+    
+    --name  <nombre del libro>
+    
+    --url <url del repositorio en github>
+
+    --help 
+    
+    --version
 
 Se construye así la estructura inicial por **gitbook-start**, es decir, la jerarquía de directorios conteniendo los scripts y ficheros markdown para el libro.
+
+![Tree](img/tree_paquete.png)
 
 3- Colocarse en la carpeta que contiene el libro.
 
@@ -57,18 +59,16 @@ $ npm install
 $ npm install --save gitbook-start-iaas-ull-es-josue-nayra 
 ```
 
-6- Es necesario tener el repositorio remoto actualizado. Para ello podemos ejecutar una de las tareas descritas en el gulpfile: **gulp push --mensaje <mensaje commit>**.
+6- Para la actualización de nuestro repositorio podemos ejecutar una de las tareas descritas en el gulpfile: **gulp push --mensaje <mensaje commit>**.
 
 
-7- El usuario debe tener su máquina IAAS configurada. Para ello debe:
+7- El usuario simplemente deberá tener su máquina IAAS encendida. 
 
-* Haber copiado el fichero de clave pública 'id_rsa.pub' de su máquina en el iaas para poder acceder a la misma sin necesidad de especificar usuario y contraseña cuando se realicen conexiones remotas. Para ello podemos ejecutar el siguiente comando
-en la máquina local:
-    
-```bash
-$ scp ~/.ssh/id_rsa.pub <máquina remota>:~/.ssh/
-```
-* En la máquina del IAAS, el usuario debe clonar el repositorio dónde se alojará el gitbook.
+El plugin se encargará de realizar las siguientes tareas en el initialize:
+
+* Copiar el fichero de clave pública 'id_rsa.pub' en la máquina del iaas para poder acceder a la máquina.
+
+* Se clonará automáticamente el repositorio que contiene el libro.
 
 
 8- Ejecutar el plugin:
@@ -81,6 +81,16 @@ $ gitbook-start --deploy iaas-ull-es --IP <ip> --path <ruta_maquina> --usuariore
         --deploy <maquina donde se va a desplegar el gitbook>
         --IP <ip de la máquina>
         --usuarioremoto <usuario de la máquina>
+
+
+9- Una vez ejecutado el comando anterior, se generará automáticamente en el gulpfile.js una tarea llamada 
+"deploy-iaas-ull-es" que permitirá al usuario actualizar el contenido de la máquina IAAS.
+
+```javascript
+gulp.task("deploy-iaas-ull-es", function(){
+    require(path.join(basePath, 'node_modules','gitbook-start-iaas-ull-es-josue-nayra')).deploy("10.6.128.176", "ea/", "https://github.com/JosueTC94/migitbook.git", "usuario");
+});
+```
 
 
 NOTA: El despliegue en el IAAS se realizará por defecto en el puerto 8080. En el caso que quiera cambiarse hay que acceder al fichero app.js y modificarlo.
@@ -113,9 +123,9 @@ Tarea deploy genérica que actualiza las gh-pages del gitbook.
 $ gulp deploy
 ```
 
-* **deploy --<despliegue realizado>**
+* **deploy --iaas**
 
-Tarea generada posteriormente a la realización y ejecución del comando gitbook-start --deploy, que permite al usuario realizar posteriores despliegues y actualizaciones de su gitbook em la máquina remota con gulp.
+Tarea generada posteriormente a la realización y ejecución del comando gitbook-start --deploy, que permite al usuario realizar posteriores despliegues y actualizaciones de su gitbook en la máquina remota con gulp.
 Por ejemplo, en el caso de que el usuario despliegue en el IAAS, después de haber desplegado con la opción gitbook-start --deploy iaas-ull-es, en el gulpfile se generará una tarea
 con el nombre deploy-iaas-ull-es.
 
