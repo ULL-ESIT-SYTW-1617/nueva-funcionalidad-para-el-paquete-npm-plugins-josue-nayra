@@ -4,12 +4,10 @@
 
 El objetivo de esta práctica es extender el package NodeJS desarrollado en la [pŕactica 2](https://www.npmjs.com/package/gitbook-start-josue-nayra), publicado en npm con una nueva funcionalidad que permita que los usuarios con conocimientos de NodeJS puedan extender la conducta del ejecutable para que este realice el despliegue en plataformas distintas de las ya consideradas.
 
-En esta práctica sólo se pide desarrollar el plugin para iaas.ull.es
-
 [Plugin: gitbook-start-iaas-ull-es-josue-nayra](https://github.com/ULL-ESIT-SYTW-1617/gitbook-start-iaas-ull-es-josue-nayra)
+[Plugin: gitbook-start-heroku-josue-nayra](https://github.com/ULL-ESIT-SYTW-1617/gitbook-start-heroku-josue-nayra)
 
-
-### Pasos a seguir para la utilización del plugin
+### Pasos a seguir para la utilización paquete y de sus plugins
 
 1- Descargar el paquete inicial: **gitbook-start**
     
@@ -39,8 +37,6 @@ Opciones disponibles para la creación del libro:
 
 Se construye así la estructura inicial por **gitbook-start**, es decir, la jerarquía de directorios conteniendo los scripts y ficheros markdown para el libro.
 
-![Tree](img/tree_paquete.png)
-
 3- Colocarse en la carpeta que contiene el libro.
 
 ```bash
@@ -53,42 +49,35 @@ $ cd <directorio en el que se ha desplegado el libro>
 $ npm install 
 ```
 
-5- Instalar el plugin requerido como dependendecia con la opción --save, como por ejemplo: **gitbook-start-iaas-ull-es-josue-nayra** para el despliegue en iaas.
+5- Instalar los plugins requeridos como dependendecias con la opción --save, como por ejemplo: **gitbook-start-iaas-ull-es-josue-nayra** o **gitbook-start-heroku-josue-nayra**, para el despliegue en iaas y heroku respectivamente.
     
 ```bash
 $ npm install --save gitbook-start-iaas-ull-es-josue-nayra 
 ```
 
+```bash
+$ npm install --save gitbook-start-heroku-josue-nayra
+```
+
 6- Para la actualización de nuestro repositorio podemos ejecutar una de las tareas descritas en el gulpfile: **gulp push --mensaje <mensaje commit>**.
 
 
-7- El usuario simplemente deberá tener su máquina IAAS encendida. 
-
-El plugin se encargará de realizar las siguientes tareas en el initialize:
-
-* Copiar el fichero de clave pública 'id_rsa.pub' en la máquina del iaas para poder acceder a la máquina.
-
-* Se clonará automáticamente el repositorio que contiene el libro.
-
-
-8- Ejecutar el plugin:
+7- Ejecutar la opción --deploy especificando la máquina remota dónde queremos hacer el despliegue:
    
 ```bash
-$ gitbook-start --deploy iaas-ull-es --IP <ip> --path <ruta_maquina> --usuarioremoto <usuario_maquina_iaas>  
+$ gitbook-start --deploy [iaas-ull-es|heroku] [Opciones]
 ```
 
-   Opciones disponibles:
-        --deploy <maquina donde se va a desplegar el gitbook>
-        --IP <ip de la máquina>
-        --usuarioremoto <usuario de la máquina>
+Para conocer mejor las opciones disponibles para cada plugin de despliegue podemos acceder a los paquetes publicados en npm
+para despliegues en iaas-ull-es o en Heroku. Los enlaces podemos encontrarlo en las siguientes secciones.
 
 
 9- Una vez ejecutado el comando anterior, se generará automáticamente en el gulpfile.js una tarea llamada 
-"deploy-iaas-ull-es" que permitirá al usuario actualizar el contenido de la máquina IAAS.
+"deploy-<máquina en la que realizar el despliegue>" que permitirá al usuario actualizar el contenido de dicha máquina.
 
 ```javascript
-gulp.task("deploy-iaas-ull-es", function(){
-    require(path.join(basePath, 'node_modules','gitbook-start-iaas-ull-es-josue-nayra')).deploy("10.6.128.176", "ea/", "https://github.com/JosueTC94/migitbook.git", "usuario");
+gulp.task("deploy-<máquina en la que realizar el despliegue>", function(){
+    require(path.join(basePath, 'node_modules','<plugin de depliegue>')).deploy(...);
 });
 ```
 
@@ -123,16 +112,23 @@ Tarea deploy genérica que actualiza las gh-pages del gitbook.
 $ gulp deploy
 ```
 
-* **deploy --iaas**
+* **deploy-iaas-ull-es**
 
 Tarea generada posteriormente a la realización y ejecución del comando gitbook-start --deploy, que permite al usuario realizar posteriores despliegues y actualizaciones de su gitbook en la máquina remota con gulp.
 Por ejemplo, en el caso de que el usuario despliegue en el IAAS, después de haber desplegado con la opción gitbook-start --deploy iaas-ull-es, en el gulpfile se generará una tarea
 con el nombre deploy-iaas-ull-es.
 
 ```
-$ gulp deploy-<máquina en la se ha desplegado previamente>
+$ gulp deploy-iaas-ull-es
 ```
 
+* **deploy-heroku**
+
+Tarea generada posteriormente a la realización y ejecución del comando gitbook-start --deploy, que permite al usuario realizar posteriores despliegues y actualizaciones de su gitbook en Heroku con gulp. Por ejemplo, en el caso de que el usuario despliegue en Heroku, después de haber desplegado con la opción gitbook-start --deploy heroku, en el gulpfile se generará una tarea con el nombre deploy-heroku.
+
+```
+$ gulp deploy-heroku
+```
 
 ### Enlaces
 
@@ -140,13 +136,17 @@ $ gulp deploy-<máquina en la se ha desplegado previamente>
 
 - [Descripción de la práctica](https://casianorodriguezleon.gitbooks.io/ull-esit-1617/content/practicas/practicaplugin.html)
 
-- [Publicación del paquete en npm](https://www.npmjs.com/package/gitbook-start-josue-nayra)
-
-- [Repositorio en Github.com](https://github.com/ULL-ESIT-SYTW-1617/nueva-funcionalidad-para-el-paquete-npm-plugins-josue-nayra)
+- [Publicación del paquete gitbook-start-josue-nayra](https://www.npmjs.com/package/gitbook-start-josue-nayra)
 
 - [Plugin para el despliegue en IAAS](https://www.npmjs.com/package/gitbook-start-iaas-ull-es-josue-nayra)
 
-- [Repositorio del plugin iaas-ull-es](https://github.com/ULL-ESIT-SYTW-1617/gitbook-start-iaas-ull-es-josue-nayra) 
+- [Plugin para el despliegue con Heroku](https://www.npmjs.com/package/gitbook-start-heroku-josue-nayra)
+
+- [Repositorio del plugin Heroku](https://github.com/ULL-ESIT-SYTW-1617/gitbook-start-heroku-josue-nayra/) 
+
+- [Repositorio del plugin IAAS](https://github.com/ULL-ESIT-SYTW-1617/gitbook-start-iaas-ull-es-josue-nayra) 
+
+- [Repositorio de gitbook-start-josue-nayra](https://github.com/ULL-ESIT-SYTW-1617/nueva-funcionalidad-para-el-paquete-npm-plugins-josue-nayra)
 
 
 
