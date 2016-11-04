@@ -150,7 +150,6 @@ $ gulp deploy-heroku
 
 
 
-
 ### Referencias
 
 - [Tutorial para publicar paquetes nodejs](https://casianorodriguezleon.gitbooks.io/ull-esit-1617/content/apuntes/nodejspackages.html)
